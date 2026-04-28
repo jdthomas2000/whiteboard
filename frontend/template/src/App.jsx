@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [names, setNames] = useState(null);
+  const [movies, setMovies] = useState([]);
 
-  fetch("http://localhost:8080/movies")
-    .then((res) => res.json())
-    .then((data) => setNames(data));
-
-  if (!name) return <h1>loading...</h1>;
+  useEffect(() => {
+    fetch("http://localhost:8080/movies")
+      .then((res) => res.json())
+      .then((data) => setMovies(data))
+      .catch((err) => console.error("Backend not ready:", err));
+  }, []);
+  if (!movies) return <h1>loading...</h1>;
   return (
     <>
-      {names.map((item) => (
-        <div key={item.id}>{item.name}</div>
+      {movies.map((movie) => (
+        <div key={movie.id}>{movie.name}</div>
       ))}
     </>
   );
