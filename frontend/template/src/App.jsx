@@ -4,19 +4,23 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [movies, setMovies] = useState([]);
+  const [person, setPerson] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/movies")
+    fetch("http://localhost:8081/unit_x")
       .then((res) => res.json())
-      .then((data) => setMovies(data))
+      .then((data) => setPerson(data))
       .catch((err) => console.error("Backend not ready:", err));
   }, []);
-  if (!movies) return <h1>loading...</h1>;
+  if (!person) return <h1>loading...</h1>;
   return (
     <>
-      {movies.map((movie) => (
-        <div key={movie.id}>{movie.name}</div>
+      {person.map((data) => (
+        <>
+          <div key={data.id}>
+            {data.name} {data.status}
+          </div>
+        </>
       ))}
     </>
   );

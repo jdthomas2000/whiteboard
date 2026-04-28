@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-const port = 8080;
+const port = 8081;
 const knex = require("knex")(require("../db/knexfile.js")["development"]);
 
 app.use(cors());
@@ -13,8 +13,8 @@ app.get("/", (req, res) =>
   res.send("API reached! Please visit the /movies endpoint for data."),
 );
 
-app.get("/movies", function (req, res) {
-  knex("favs")
+app.get("/unit_x", function (req, res) {
+  knex("unit_x")
     .select("*")
     .then((data) => res.status(200).json(data))
     .catch((err) =>
@@ -26,7 +26,7 @@ app.get("/movies", function (req, res) {
 });
 
 app.get("/movies/:movie", function (req, res) {
-  knex("favs")
+  knex("unit_x")
     .select("*")
     .where("name", "=", req.params.movie)
     .then((data) => res.status(200).json(data))
@@ -41,7 +41,7 @@ app.get("/movies/:movie", function (req, res) {
 app.post("/movies/", async (req, res) => {
   const { id, ...updateData } = req.body;
   try {
-    await knex("favs").insert(updateData);
+    await knex("unit_x").insert(updateData);
 
     return res.status(201).json({ Movie_inserted: updateData.name });
   } catch (err) {
@@ -53,7 +53,9 @@ app.post("/movies/", async (req, res) => {
 app.patch("/movies/:movie", async (req, res) => {
   const { id, ...updateData } = req.body;
   try {
-    await knex("favs").where("name", "=", req.params.movie).update(updateData);
+    await knex("unit_x")
+      .where("name", "=", req.params.movie)
+      .update(updateData);
 
     return res.status(201).json({ Movie_updated: req.params.movie });
   } catch (err) {
@@ -64,7 +66,7 @@ app.patch("/movies/:movie", async (req, res) => {
 
 app.delete("/movies/:movie", async (req, res) => {
   try {
-    await knex("favs").where("name", "=", req.params.movie).del();
+    await knex("unit_x").where("name", "=", req.params.movie).del();
     return res.status(201).json({ Movie_deleted: req.params.movie });
   } catch (err) {
     res.status(500).json({ error: err.message });
