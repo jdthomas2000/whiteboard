@@ -12,11 +12,14 @@ module.exports = {
   development: {
     client: "pg",
     connection: {
-      host: "localhost",
+      host: "db",
       port: 5432,
       user: user,
       password: password,
       database: "template",
+    },
+    migrations: {
+      directory: path.join(__dirname, "migrations"),
     },
   },
 

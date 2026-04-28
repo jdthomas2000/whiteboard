@@ -7,7 +7,7 @@ function App() {
   const [person, setPerson] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8081/unit_x")
+    fetch("http://localhost:8080/unit_x")
       .then((res) => res.json())
       .then((data) => setPerson(data))
       .catch((err) => console.error("Backend not ready:", err));
@@ -20,6 +20,7 @@ function App() {
           <div key={data.id}>
             {data.name} {data.status}
           </div>
+          <div>test2</div>
         </>
       ))}
     </>
