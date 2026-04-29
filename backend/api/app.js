@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) =>
-  res.send("API reached! Please visit the /movies endpoint for data."),
+  res.send("API reached! Please visit the /unit_x endpoint for data."),
 );
 
 app.get("/unit_x", function (req, res) {
@@ -25,10 +25,10 @@ app.get("/unit_x", function (req, res) {
     );
 });
 
-app.get("/movies/:movie", function (req, res) {
+app.get("/unit_x/:id", function (req, res) {
   knex("unit_x")
     .select("*")
-    .where("name", "=", req.params.movie)
+    .where("id", "=", req.params.id)
     .then((data) => res.status(200).json(data))
     .catch((err) =>
       res.status(404).json({
@@ -38,36 +38,34 @@ app.get("/movies/:movie", function (req, res) {
     );
 });
 
-app.post("/movies/", async (req, res) => {
+app.post("/unit_x/", async (req, res) => {
   const { id, ...updateData } = req.body;
   try {
     await knex("unit_x").insert(updateData);
 
-    return res.status(201).json({ Movie_inserted: updateData.name });
+    return res.status(201).json({ Member_Added: updateData.name });
   } catch (err) {
     console.error(err.message);
     res.status(500).send(err.message);
   }
 });
 
-app.patch("/movies/:movie", async (req, res) => {
+app.patch("/unit_x/:id", async (req, res) => {
   const { id, ...updateData } = req.body;
   try {
-    await knex("unit_x")
-      .where("name", "=", req.params.movie)
-      .update(updateData);
+    await knex("unit_x").where("id", "=", req.params.id).update(updateData);
 
-    return res.status(201).json({ Movie_updated: req.params.movie });
+    return res.status(201).json({ Member_updated: req.params.id });
   } catch (err) {
     console.error(err.message);
     res.status(500).send(err.message);
   }
 });
 
-app.delete("/movies/:movie", async (req, res) => {
+app.delete("/unit_x/:id", async (req, res) => {
   try {
-    await knex("unit_x").where("name", "=", req.params.movie).del();
-    return res.status(201).json({ Movie_deleted: req.params.movie });
+    await knex("unit_x").where("id", "=", req.params.id).del();
+    return res.status(201).json({ Member_deleted: req.params.id });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -7,11 +7,19 @@ exports.seed = async function (knex) {
   await knex("unit_x").insert([
     {
       name: "Lt Jacob",
-      status: "present",
+      here: true,
+      location: null,
     },
     {
       name: "Lt Thomas",
-      status: "home",
+      here: false,
+      location: "Home",
+    },
+
+    {
+      name: "Sgt Hamilton",
+      here: false,
+      location: "Lunch",
     },
   ]);
 };

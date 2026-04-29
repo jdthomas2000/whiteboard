@@ -6,17 +6,17 @@ exports.up = function (knex) {
   return knex.schema.createTable("unit_x", (table) => {
     table.increments("id");
     table.string("name").notNullable();
+    table.boolean("here");
     table
-      .enu("status", [
-        "present",
-        "home",
-        "appointment",
-        "leave",
-        "lunch",
-        "other",
+      .enu("location", [
+        "Weekend",
+        "Home",
+        "Appointment",
+        "Leave",
+        "Lunch",
+        "Other",
       ])
-      .defaultTo("present")
-      .notNullable();
+      .defaultTo(null);
 
     table.timestamps(true, true);
   });
