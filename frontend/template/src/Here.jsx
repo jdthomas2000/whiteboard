@@ -26,12 +26,11 @@ function Here({ data, onStatusChange }) {
   if (!data) return <h1>loading...</h1>;
   return (
     <>
-      <p>{status ? "Yes" : "No"}</p>
       <button
         onClick={() => updateStatus(status)}
         className="btn btn-soft btn-accent"
       >
-        Update
+        {status ? "Yes" : "No"}
       </button>
     </>
   );

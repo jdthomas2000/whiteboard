@@ -9,6 +9,7 @@ exports.up = function (knex) {
     table.boolean("here");
     table
       .enu("location", [
+        "Set Location",
         "Weekend",
         "Home",
         "Appointment",

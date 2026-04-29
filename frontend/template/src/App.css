@@ -1,12 +1,38 @@
-.headers,
+.headers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+}
+
+.headers h3 {
+  margin: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #555;
+}
+
 .member {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  padding: 2%;
+  padding: 12px 16px;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.member:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--color-base-100) 85%,
+    var(--color-base-300)
+  );
 }
 
 .greyed {
-  color: grey;
+  color: #bbb;
   pointer-events: none;
   opacity: 0.5;
 }

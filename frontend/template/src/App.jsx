@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Here from "./Here";
+import Location from "./Location";
 function App() {
-  const [person, setPerson] = useState([]);
+  const [person, setPerson] = useState();
 
   useEffect(() => {
     fetch("http://localhost:8080/unit_x")
@@ -27,7 +28,13 @@ function App() {
               onStatusChange={(newStatus) => {
                 setPerson((prev) =>
                   prev.map((p) =>
-                    p.id === data.id ? { ...p, here: newStatus } : p,
+                    p.id === data.id
+                      ? {
+                          ...p,
+                          here: newStatus,
+                          location: !newStatus ? "Set Location" : p.location,
+                        }
+                      : p,
                   ),
                 );
               }}
@@ -36,11 +43,20 @@ function App() {
 
           {data.here ? (
             <div className="greyed">
-              <p>{data.location ? data.location : "N/A"}</p>
+              <p>{"N/A"}</p>
             </div>
           ) : (
             <div className="changeable">
-              <p>{data.location ? data.location : "N/A"}</p>
+              <Location
+                data={data}
+                onStatusChange={(newLocation) => {
+                  setPerson((prev) =>
+                    prev.map((p) =>
+                      p.id === data.id ? { ...p, location: newLocation } : p,
+                    ),
+                  );
+                }}
+              ></Location>
             </div>
           )}
         </div>
