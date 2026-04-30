@@ -1,11 +1,37 @@
 import { useState, useEffect } from "react";
+import { io } from "socket.io-client";
 import "./App.css";
 import Here from "./Here";
 import Location from "./Location";
 import AddMember from "./AddMember";
 import Delete from "./Delete";
+
+const socket = io("http://localhost:8080");
+
 function App() {
   const [person, setPerson] = useState();
+
+  useEffect(() => {
+    socket.on("member_updated", (updatedMember) => {
+      setPerson((prev) =>
+        prev.map((p) => (p.id === updatedMember.id ? updatedMember : p)),
+      );
+    });
+
+    socket.on("member_added", (newMember) => {
+      setPerson((prev) => [...prev, newMember]);
+    });
+
+    socket.on("member_deleted", (deletedMember) => {
+      setPerson((prev) => prev.filter((p) => p.id !== deletedMember.id));
+    });
+
+    return () => {
+      socket.off("member_updated");
+      socket.off("member_added");
+      socket.off("member_deleted");
+    };
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8080/unit_x")
@@ -31,14 +57,7 @@ function App() {
             <div className="member-row">
               {data.name}
 
-              <Delete
-                data={data}
-                onMemberDeleted={(deletedMember) => {
-                  setPerson((prev) =>
-                    prev.filter((p) => p.id !== deletedMember.id),
-                  );
-                }}
-              />
+              <Delete data={data} />
             </div>
 
             <div>
@@ -51,7 +70,7 @@ function App() {
                         ? {
                             ...p,
                             here: newStatus,
-                            location: newStatus ? null : p.location,
+                            location: newStatus ? "Set Location" : p.location,
                           }
                         : p,
                     ),
@@ -82,11 +101,7 @@ function App() {
         ))}
 
         <div className="add-member-row">
-          <AddMember
-            onMemberAdded={(newMember) => {
-              setPerson((prev) => [...prev, newMember]);
-            }}
-          />
+          <AddMember />
         </div>
       </div>
     </>

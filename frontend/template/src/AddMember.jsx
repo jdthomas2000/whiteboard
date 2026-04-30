@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-function AddMember({ onMemberAdded }) {
+function AddMember() {
   const [name, setName] = useState("");
 
   function handleChange(e) {
@@ -14,9 +14,7 @@ function AddMember({ onMemberAdded }) {
       body: JSON.stringify({ name: name, here: true }),
     })
       .then((res) => res.json())
-      .then((newMember) => {
-        onMemberAdded(newMember);
-      })
+
       .catch((err) => console.error(err));
   }
 

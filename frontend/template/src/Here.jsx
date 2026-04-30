@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 function Here({ data, onStatusChange }) {
   const [status, setStatus] = useState(data.here);
+  const mounted = useRef(false);
 
   function updateStatus() {
     const newStatus = !status;
@@ -10,6 +11,10 @@ function Here({ data, onStatusChange }) {
   }
 
   useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
     fetch(`http://localhost:8080/unit_x/${data.id}`, {
       method: "PATCH",
       headers: {
@@ -22,7 +27,7 @@ function Here({ data, onStatusChange }) {
       .then((res) => res.json())
 
       .catch((err) => console.error(err));
-  }, [status, data]);
+  }, [status]);
   if (!data) return <h1>loading...</h1>;
   return (
     <>

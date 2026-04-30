@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-function Delete({ data, onMemberDeleted }) {
+function Delete({ data }) {
   function deleteUser() {
     fetch(`http://localhost:8080/unit_x/${data.id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
-      .then((deletedMember) => {
-        onMemberDeleted(deletedMember);
-      })
+
       .catch((err) => console.error(err));
   }
 

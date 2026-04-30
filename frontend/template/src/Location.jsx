@@ -3,6 +3,7 @@ import "./App.css";
 function Location({ data, onStatusChange }) {
   const [location, setLocation] = useState(data.location);
   const detailsRef = useRef(null);
+  const mounted = useRef(false);
 
   function updateLocation(newLocation) {
     setLocation(newLocation);
@@ -11,6 +12,10 @@ function Location({ data, onStatusChange }) {
   }
 
   useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
     fetch(`http://localhost:8080/unit_x/${data.id}`, {
       method: "PATCH",
       headers: {
@@ -22,7 +27,7 @@ function Location({ data, onStatusChange }) {
     })
       .then((res) => res.json())
       .catch((err) => console.error(err));
-  }, [location, data]);
+  }, [location]);
   if (!data) return <h1>loading...</h1>;
   return (
     <>
