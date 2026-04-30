@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 function Here({ data, onStatusChange }) {
   const [status, setStatus] = useState(data.here);
@@ -20,7 +20,7 @@ function Here({ data, onStatusChange }) {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+
       .catch((err) => console.error(err));
   }, [status, data]);
   if (!data) return <h1>loading...</h1>;

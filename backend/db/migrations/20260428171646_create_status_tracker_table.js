@@ -6,7 +6,7 @@ exports.up = function (knex) {
   return knex.schema.createTable("unit_x", (table) => {
     table.increments("id");
     table.string("name").notNullable();
-    table.boolean("here");
+    table.boolean("here").defaultTo(true);
     table
       .enu("location", [
         "Set Location",
@@ -17,7 +17,7 @@ exports.up = function (knex) {
         "Lunch",
         "Other",
       ])
-      .defaultTo(null);
+      .defaultTo("Set Location");
 
     table.timestamps(true, true);
   });

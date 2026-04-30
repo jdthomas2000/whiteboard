@@ -41,9 +41,8 @@ app.get("/unit_x/:id", function (req, res) {
 app.post("/unit_x/", async (req, res) => {
   const { id, ...updateData } = req.body;
   try {
-    await knex("unit_x").insert(updateData);
-
-    return res.status(201).json({ Member_Added: updateData.name });
+    const [newMember] = await knex("unit_x").insert(updateData).returning("*");
+    return res.status(201).json(newMember);
   } catch (err) {
     console.error(err.message);
     res.status(500).send(err.message);
@@ -65,7 +64,7 @@ app.patch("/unit_x/:id", async (req, res) => {
 app.delete("/unit_x/:id", async (req, res) => {
   try {
     await knex("unit_x").where("id", "=", req.params.id).del();
-    return res.status(201).json({ Member_deleted: req.params.id });
+    return res.status(201).json({ id: Number(req.params.id) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

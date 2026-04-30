@@ -21,7 +21,6 @@ function Location({ data, onStatusChange }) {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
       .catch((err) => console.error(err));
   }, [location, data]);
   if (!data) return <h1>loading...</h1>;
